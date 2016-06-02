@@ -1,8 +1,8 @@
 GithubStar
 ======================
 
-A demo using the Github Rest API ( https://developer.github.com/v3/) display a list of the the most starred repositories that were created the last week.
-<img src="ic_launcer-512.png" width="20%">
+A demo using the Github Rest API ( https://developer.github.com/v3/) display a list of the the most starred repositories that were created the last week.    
+<img src="ic_launcher-512.png" width="20%">
 # Demo
 
 <img src="images/list_repo.png" width="30%">
