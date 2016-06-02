@@ -5,8 +5,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRequestFail(String error) {
-
+        Log.w("MainActivity", "Error: " + error);
+        Toast.makeText(this, "Error. Please try again!", Toast.LENGTH_SHORT).show();
+        mSwipeRefreshLayout.setRefreshing(false);
+        mLoading.setVisibility(View.GONE);
     }
 
     public void onRequestSuccess(List<RepositoryItem> listRepo) {
