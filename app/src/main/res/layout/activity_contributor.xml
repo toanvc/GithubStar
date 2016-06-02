@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center"
         android:weightSum="4">
 
         <View
@@ -20,10 +21,14 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:src="@drawable/placeholder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,22 +36,23 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_margin="20dp"
-        android:background="#122222" />
 
-    <TextView
-        android:id="@+id/name"
-        style="@style/MyTextStyle"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/txt_title_size"
-        android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_margin="20dp"
+            android:background="#122222" />
 
-    <TextView
-        android:id="@+id/profile_link"
-        style="@style/MyTextStyle"
-        android:autoLink="web" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/name"
+            style="@style/MyTextStyle"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profile_link"
+            style="@style/MyTextStyle"
+            android:autoLink="web" />
+    </LinearLayout>
 </LinearLayout>

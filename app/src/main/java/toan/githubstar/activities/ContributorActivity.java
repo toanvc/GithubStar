@@ -50,7 +50,7 @@ public class ContributorActivity extends AppCompatActivity{
     }
     private void bindData(Contributor contributor){
         mTxtName.setText(contributor.getName());
-        mTxtLink.setText(contributor.getUrl());
+        mTxtLink.setText(contributor.getHtmlUrl());
         Glide.with(this).load(contributor.getAvatarUrl())
                 .placeholder(R.drawable.placeholder)
                 .transform(new CircleTransform(this))

@@ -12,7 +12,8 @@ public class Contributor implements Serializable {
     private String name;
     @SerializedName("avatar_url")
     private String avatarUrl;
-    private String url;
+    @SerializedName("html_url")
+    private String htmlUrl;
 
     public String getName() {
         return name;
@@ -30,12 +31,12 @@ public class Contributor implements Serializable {
         this.avatarUrl = avatarUrl;
     }
 
-    public String getUrl() {
-        return url;
+    public String getHtmlUrl() {
+        return htmlUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHtmlUrl(String htmlUrl) {
+        this.htmlUrl = htmlUrl;
     }
 }
 
