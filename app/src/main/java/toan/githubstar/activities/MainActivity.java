@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRequestSuccess(List<RepositoryItem> listRepo) {
-        mAdapter.setMediaList(listRepo);
+        mAdapter.setRepoList(listRepo);
         mAdapter.notifyDataSetChanged();
     }
 
