@@ -44,6 +44,7 @@
             android:background="#122222" />
 
         <TextView
+            android:layout_gravity="clip_horizontal"
             android:id="@+id/name"
             style="@style/MyTextStyle"
             android:textColor="@android:color/black"
@@ -51,6 +52,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_gravity="clip_horizontal"
             android:id="@+id/profile_link"
             style="@style/MyTextStyle"
             android:autoLink="web" />

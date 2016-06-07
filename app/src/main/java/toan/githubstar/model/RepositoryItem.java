@@ -1,11 +1,16 @@
 package toan.githubstar.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Created by Toan Vu on 6/1/16.
  */
-public class RepositoryItem {
+public class RepositoryItem implements Parcelable{
 
     private String name;
     @SerializedName("stargazers_count")
@@ -14,6 +19,7 @@ public class RepositoryItem {
     private String createdAt;
     private String language;
     private Contributor owner;
+
 
     public String getLanguage() {
         return language;
@@ -53,5 +59,15 @@ public class RepositoryItem {
 
     public void setOwner(Contributor owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

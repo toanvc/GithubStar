@@ -43,7 +43,6 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:3.5.2'
 
-
     // Unit testing dependencies
     androidTestCompile 'com.jayway.android.robotium:robotium:5.5.4'
 }

@@ -6,8 +6,9 @@ A demo using the Github Rest API ( https://developer.github.com/v3/) display a l
 # Demo
 
 <img src="images/list_repo.png" width="30%">
-<img src="images/owner.png" width="30%">
+<img src="images/owner.png" width="30%">   
 
+<img src="images/landscape.png" width="50%">
 
 License
 -------

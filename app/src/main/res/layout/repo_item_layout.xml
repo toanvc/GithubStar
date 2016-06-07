@@ -30,6 +30,8 @@
 
                 <TextView
                     android:id="@+id/repo_name"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/txt_title_size" />

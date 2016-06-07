@@ -1,5 +1,8 @@
 package toan.githubstar.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -7,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by Toan Vu on 6/1/16.
  */
-public class Contributor implements Serializable {
+public class Contributor implements Parcelable {
     @SerializedName("login")
     private String name;
     @SerializedName("avatar_url")
@@ -37,6 +40,16 @@ public class Contributor implements Serializable {
 
     public void setHtmlUrl(String htmlUrl) {
         this.htmlUrl = htmlUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
 

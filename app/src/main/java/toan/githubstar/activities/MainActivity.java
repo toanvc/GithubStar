@@ -1,88 +1,131 @@
 package toan.githubstar.activities;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import toan.githubstar.R;
-import toan.githubstar.adapter.RepositoryAdapter;
+import toan.githubstar.fragments.ContributorFragment;
+import toan.githubstar.fragments.GitFragment;
+import toan.githubstar.interfaces.IClickItem;
+import toan.githubstar.interfaces.ILoadData;
+import toan.githubstar.model.Contributor;
 import toan.githubstar.model.RepositoryItem;
 import toan.githubstar.presenter.GetPresenter;
 
-public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.recycle_view)
-    RecyclerView mRecyclerView;
+public class MainActivity extends AppCompatActivity implements IClickItem, ILoadData {
+
+    private static final String BACKSTACK = "MainActivity";
+    @BindView(R.id.container)
+    FrameLayout mViewContainer;
     @BindView(R.id.progress_bar)
     ProgressBar mLoading;
-
-    @BindView(R.id.swipe_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RepositoryAdapter mAdapter;
     private GetPresenter mPresenter;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        mPresenter = new GetPresenter(this);
+    public void onClick(Contributor contributor) {
+        //control click item
+        if (findViewById(R.id.contributer_container) != null) {
 
-        mAdapter = new RepositoryAdapter(this, new ArrayList<RepositoryItem>());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAdapter);
-        initSwipeLayout();
+            getContributorFragment().bindData(contributor);
+        } else {
+            FragmentTransaction f = getSupportFragmentManager().beginTransaction();
+            f.replace(R.id.container, ContributorFragment.createNewContributerFragment(contributor));
+            f.addToBackStack(BACKSTACK);
+            f.commit();
+        }
+    }
 
+    @Override
+    public void onLoadData() {
         mPresenter.loadRepositories(true);
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
+        ButterKnife.bind(this);
+
+        mPresenter = new GetPresenter(this);
+        mPresenter.loadRepositories(false);
+    }
+
+    @Override
     public void onDestroy() {
-        if (mAdapter != null) {
-            mAdapter.onRelease();
-            mAdapter = null;
-        }
+//        if (mAdapter != null) {
+//            mAdapter.onRelease();
+//            mAdapter = null;
+//        }
 
         super.onDestroy();
     }
 
     public void showProgress(boolean isShow) {
         mLoading.setVisibility(isShow ? View.VISIBLE : View.GONE);
+
     }
 
-    public void onRefreshDone(){
-        mSwipeRefreshLayout.setRefreshing(false);
+    public void onRefreshDone() {
+        getGitListFragment().onRefreshDone();
+//        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     public void onRequestFail(String error) {
         Log.w("MainActivity", "Error: " + error);
         Toast.makeText(this, "Error. Please try again!", Toast.LENGTH_SHORT).show();
-        mSwipeRefreshLayout.setRefreshing(false);
-        mLoading.setVisibility(View.GONE);
+//        mSwipeRefreshLayout.setRefreshing(false);
+//        mLoading.setVisibility(View.GONE);
+
     }
 
-    public void onRequestSuccess(List<RepositoryItem> listRepo) {
-        mAdapter.setRepoList(listRepo);
-        mAdapter.notifyDataSetChanged();
+    public void onRequestSuccess(ArrayList<RepositoryItem> listRepo) {
+        Contributor con = null;
+        if (listRepo.size() > 0)
+            con = listRepo.get(0).getOwner();
+
+        GitFragment fragment = getGitListFragment();
+        if (fragment == null) {
+
+            initFragments(listRepo, con);
+        } else {
+            fragment.onRequestSuccess(listRepo);
+            getContributorFragment().bindData(con);
+        }
     }
 
-    private void initSwipeLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.loadRepositories(true);
-            }
-        });
+    private void initFragments(ArrayList<RepositoryItem> listRepo, Contributor con) {
+        FragmentTransaction f = getSupportFragmentManager().beginTransaction();
+        GitFragment gitFragment = GitFragment.createNewContributerFragment(listRepo);
+        gitFragment.setIClickItem(this);
+        gitFragment.setILoadData(this);
+        f.add(R.id.container, gitFragment);
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.contributer_container) != null) {
+            f.add(R.id.contributer_container, ContributorFragment.createNewContributerFragment(con));
+        }
+        f.commit();
+
     }
 
+
+    private GitFragment getGitListFragment() {
+        GitFragment fragment = (GitFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+        return fragment;
+    }
+
+    private ContributorFragment getContributorFragment() {
+        ContributorFragment contributorFragment = (ContributorFragment) getSupportFragmentManager().findFragmentById(R.id.contributer_container);
+        return contributorFragment;
+    }
 }

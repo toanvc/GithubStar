@@ -1,7 +1,6 @@
 package toan.githubstar.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import toan.githubstar.R;
-import toan.githubstar.activities.ContributorActivity;
+import toan.githubstar.interfaces.IClickItem;
 import toan.githubstar.model.Contributor;
 import toan.githubstar.model.RepositoryItem;
 import toan.githubstar.util.MyUtils;
@@ -27,6 +26,8 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.My
     private List<RepositoryItem> mRepoList;
 
     private Activity mActivity;
+
+    private IClickItem mIClickItem;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.repo_name)
@@ -51,9 +52,10 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.My
         }
     }
 
-    public RepositoryAdapter(Activity activity, List<RepositoryItem> mediaList) {
+    public RepositoryAdapter(Activity activity, List<RepositoryItem> mediaList, IClickItem iClickItem) {
         this.mRepoList = mediaList;
         this.mActivity = activity;
+        this.mIClickItem = iClickItem;
     }
 
 
@@ -107,9 +109,12 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.My
     }
 
     private void goToShowDevInfo(Contributor contributor) {
-        Intent mpdIntent = new Intent(mActivity, ContributorActivity.class)
-                .putExtra(ContributorActivity.EXTRAS_OWNER, contributor);
-        mActivity.startActivity(mpdIntent);
+        if (mIClickItem !=null){
+            mIClickItem.onClick(contributor);
+        }
+//        Intent mpdIntent = new Intent(mActivity, ContributorActivity.class)
+//                .putExtra(ContributorActivity.EXTRAS_OWNER, contributor);
+//        mActivity.startActivity(mpdIntent);
     }
 
 }
