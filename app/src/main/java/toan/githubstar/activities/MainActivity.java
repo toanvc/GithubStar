@@ -100,7 +100,9 @@ public class MainActivity extends AppCompatActivity implements IClickItem, ILoad
             initFragments(listRepo, con);
         } else {
             fragment.onRequestSuccess(listRepo);
-            getContributorFragment().bindData(con);
+            if (findViewById(R.id.contributer_container) != null) {
+                getContributorFragment().bindData(con);
+            }
         }
     }
 
